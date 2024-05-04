@@ -14,47 +14,45 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.todolist.auth.jwt.JwtTokenGenerator;
-import com.backend.todolist.auth.repository.UserRepository;
-import com.backend.todolist.auth.service.UserService;
-import com.backend.todolist.errorhandler.CustomException;
+import com.onhands.technicaltest.authentification.jwt.JwtTokenGenerator;
+import com.onhands.technicaltest.authentification.repository.UserRepository;
+import com.onhands.technicaltest.authentification.service.UserService;
+import com.onhands.technicaltest.errorhandler.CustomException;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
 @CrossOrigin(origins = "*", allowCredentials = "true")
-@ApiResponses(value = {
-		@ApiResponse(code=400, message = "Bad Request", response = CustomException.class),
-		@ApiResponse(code=401, message = "Unauthorized", response = CustomException.class),
-		@ApiResponse(code=403, message = "Forbidden", response = CustomException.class),
-		@ApiResponse(code=404, message = "Not Found", response = CustomException.class)
-})
-public class UserController {	
+@ApiResponses(value = { @ApiResponse(code = 400, message = "Bad Request", response = CustomException.class),
+		@ApiResponse(code = 401, message = "Unauthorized", response = CustomException.class),
+		@ApiResponse(code = 403, message = "Forbidden", response = CustomException.class),
+		@ApiResponse(code = 404, message = "Not Found", response = CustomException.class) })
+public class UserController {
 	@Autowired
 	AuthenticationManager authenticationManager;
-	
+
 	@Autowired
-    PasswordEncoder passwordEncoder;
-    
+	PasswordEncoder passwordEncoder;
+
 	@Autowired
-    JwtTokenGenerator jwtTokenGenerator;
-    
+	JwtTokenGenerator jwtTokenGenerator;
+
 	@Autowired
-    UserRepository userRepository;
-	
+	UserRepository userRepository;
+
 	@Autowired
 	UserService userService;
-    
+
 	@ResponseStatus(code = HttpStatus.OK)
 	@RequestMapping(value = "/api/auth/signin", method = RequestMethod.POST)
-    public ResponseEntity<UserSigninResponse> signin(@Valid @RequestBody UserSigninRequest userSigninRequest) {
+	public ResponseEntity<UserSigninResponse> signin(@Valid @RequestBody UserSigninRequest userSigninRequest) {
 		return new ResponseEntity<>(userService.signin(userSigninRequest), HttpStatus.OK);
-    }
-	
+	}
+
 	@ResponseStatus(code = HttpStatus.OK)
 	@RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
-    public ResponseEntity<UserSignupResponse> signup(@Valid @RequestBody UserSignupRequest userSignupRequest) {
+	public ResponseEntity<UserSignupResponse> signup(@Valid @RequestBody UserSignupRequest userSignupRequest) {
 		return new ResponseEntity<>(userService.signup(userSignupRequest), HttpStatus.OK);
-    }
+	}
 }
