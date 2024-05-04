@@ -1,5 +1,4 @@
 package com.onhands.technicaltest.authentification.model;
-
 import java.util.Arrays;
 import java.util.List;
 

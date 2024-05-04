@@ -43,13 +43,13 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-
+	// Endpoint for user signin
 	@ResponseStatus(code = HttpStatus.OK)
 	@RequestMapping(value = "/api/auth/signin", method = RequestMethod.POST)
 	public ResponseEntity<UserSigninResponse> signin(@Valid @RequestBody UserSigninRequest userSigninRequest) {
 		return new ResponseEntity<>(userService.signin(userSigninRequest), HttpStatus.OK);
 	}
-
+	// Endpoint for user signup
 	@ResponseStatus(code = HttpStatus.OK)
 	@RequestMapping(value = "/api/auth/signup", method = RequestMethod.POST)
 	public ResponseEntity<UserSignupResponse> signup(@Valid @RequestBody UserSignupRequest userSignupRequest) {
