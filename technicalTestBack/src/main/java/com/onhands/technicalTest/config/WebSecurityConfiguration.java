@@ -29,7 +29,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/configuration/ui",
             "/configuration/security",
             "/swagger-ui.html",
-            "/webjars/**"
+            "/webjars/**",
+            "/console/*"
+
     };
 
     @Autowired
@@ -46,11 +48,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-            .httpBasic().disable()
-            .cors().and()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
+                .httpBasic().disable()
+                .cors().and()
+                .csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/api/auth/signin").permitAll()
@@ -58,7 +62,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/todo/**/**").authenticated()
                 .antMatchers("/api/todo/**").authenticated()
                 .anyRequest().authenticated()
-            .and()
-            .apply(new JwtConfigurer(jwtTokenGenerator));
+                .and()
+                .apply(new JwtConfigurer(jwtTokenGenerator));
     }
 }
