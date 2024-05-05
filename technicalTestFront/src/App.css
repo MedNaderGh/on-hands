@@ -10,3 +10,13 @@ a:hover {
    color: rgb(159, 159, 255);
    text-decoration: none;
 }
+.btn{
+    --mdb-btn-bg: #3b71ca;
+    background-color: #3b71ca;
+    --mdb-btn-box-shadow: 0 4px 9px -4px #3b71ca;
+    --mdb-btn-hover-bg: #386bc0;
+
+    --mdb-btn-focus-bg: #386bc0;
+
+    --mdb-btn-active-bg: #3566b6;
+}
