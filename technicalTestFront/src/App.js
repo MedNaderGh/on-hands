@@ -6,9 +6,9 @@ import About from "./components/page/About";
 import Todos from "./components/todo/ViewTodos";
 import AddTodo from "./components/todo/AddTodo";
 import UpdateTodo from "./components/todo/UpdateTodo";
-import Signin from "./components/auth/Signin";
-import Signup from "./components/auth/Signup";
-import Signout from "./components/auth/Signout";
+import Signin from "./components/authentification/Signin";
+import Signup from "./components/authentification/Signup";
+import Signout from "./components/authentification/Signout";
 import Landing from "./components/page/Landing";
 import NotFound from "./components/page/NotFound";
 
@@ -16,8 +16,10 @@ import "./bootstrap.min.css";
 import "./App.css";
 
 function App() {
+  // State to manage authentication status
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  // Check if user is authenticated on initial render
   useEffect(() => {
     if (sessionStorage.getItem("token") !== null) {
       setIsAuthenticated(true);
@@ -27,12 +29,14 @@ function App() {
   return (
     <Router>
       <div className="App">
+        {/* Header component with authentication props */}
         <Header
           isAuthenticated={isAuthenticated}
           setIsAuthenticated={setIsAuthenticated}
         />
         <div>
           <Switch>
+            {/* Route for landing page */}
             <Route
               exact
               path="/"
@@ -44,6 +48,7 @@ function App() {
                 />
               )}
             />
+            {/* Route for sign in page */}
             <Route
               exact
               path="/signin"
@@ -55,6 +60,7 @@ function App() {
                 />
               )}
             />
+            {/* Route for sign up page */}
             <Route
               exact
               path="/signup"
@@ -66,6 +72,7 @@ function App() {
                 />
               )}
             />
+            {/* Route for sign out page */}
             <Route
               exact
               path="/signout"
@@ -77,6 +84,7 @@ function App() {
                 />
               )}
             />
+            {/* Route for todos page */}
             <Route
               exact
               path="/todo"
@@ -88,6 +96,7 @@ function App() {
                 />
               )}
             />
+            {/* Route for adding a new todo */}
             <Route
               exact
               path="/add"
@@ -99,6 +108,7 @@ function App() {
                 />
               )}
             />
+            {/* Route for updating a specific todo */}
             <Route
               exact
               path="/update/:id"
@@ -110,7 +120,9 @@ function App() {
                 />
               )}
             />
+            {/* Route for about page */}
             <Route exact path="/about" component={About} />
+            {/* Route for any other path, showing not found page */}
             <Route component={NotFound} />
           </Switch>
         </div>
