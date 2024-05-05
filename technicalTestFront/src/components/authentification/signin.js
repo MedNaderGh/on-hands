@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { MDBContainer, MDBInput } from "mdb-react-ui-kit";
 
 function Signin({ isAuthenticated, setIsAuthenticated }) {
+  // State variables
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  let history = useHistory();
+  let history = useHistory(); // Function to delay execution
 
   function timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
-  }
+  } // Handle form submission
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
+  const onSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/signin",
+        "http://localhost:8080/api/auth/signin",
         { username, password }
       );
       sessionStorage.setItem("token", response.data.token);
@@ -41,11 +41,11 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
     setMessage("Sign in successful");
     await timeout(1000);
     history.push("/");
-  };
+  }; // Reset message on username or password change
 
   useEffect(() => {
     setMessage("");
-  }, [username, password]);
+  }, [username, password]); // Display success message
 
   const showMessage = () => {
     if (message === "") {
@@ -53,10 +53,10 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
     }
     return (
       <div className="alert alert-success" role="alert">
-        {message}
+                {message}     {" "}
       </div>
     );
-  };
+  }; // Display error message
 
   const showErrorMessage = () => {
     if (errorMessage === "") {
@@ -65,39 +65,40 @@ function Signin({ isAuthenticated, setIsAuthenticated }) {
 
     return (
       <div className="alert alert-danger" role="alert">
-        {errorMessage}
+                {errorMessage}     {" "}
       </div>
     );
-  };
+  }; // Render sign-in form
 
   return (
-    <div className="container">
-      <form onSubmit={onSubmit}>
-        <h1>Sign In</h1>
-        <div className="form-group">
-          <label>Username</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
-            className="form-control"
-          ></input>
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            value={password}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="form-control"
-          ></input>
-        </div>
-        <button className="btn btn-primary">Sign In</button>
-      </form>
-      {showMessage()}
-      {showErrorMessage()}
-    </div>
+    <MDBContainer className="p-3 my-5 d-flex flex-column w-50">
+            <div className="text-center"> SIGN IN</div>     {" "}
+      <MDBInput
+        wrapperClass="mb-4"
+        placeholder="username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        id="form1"
+      />
+           {" "}
+      <MDBInput
+        wrapperClass="mb-4"
+        placeholder="Password"
+        id="form2"
+        value={password}
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+           {" "}
+      <button className="mb-4 btn" onClick={() => onSubmit()}>
+                Sign in      {" "}
+      </button>
+           {" "}
+      <div className="text-center">
+                {showMessage()}        {showErrorMessage()}     {" "}
+      </div>
+         {" "}
+    </MDBContainer>
   );
 }
 
